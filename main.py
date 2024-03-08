@@ -67,7 +67,7 @@ async def extract_unix_timestamp(input_string):
 
 async def get_gamehistory(userid):
     try:
-        # Generate a random delay between 3 and 6 seconds done to make the calls not look so obvious.....
+        # Generate a random delay between 3 and 6 seconds to make the calls less obvious
         delay_seconds = random.uniform(3, 6)
         await asyncio.sleep(delay_seconds)
 
@@ -78,23 +78,32 @@ async def get_gamehistory(userid):
         if response.status_code == 200:
             soup = BeautifulSoup(response.text, 'html.parser')
             game_rows = soup.find_all('tr')
-            for row in game_rows:
+
+            max_rows_to_process = 10  # Adjust the maximum number of rows as needed
+
+            for i, row in enumerate(game_rows):
+                if i >= max_rows_to_process:
+                    break
+
                 columns = row.find_all('td')
                 if len(columns) == 3:
                     game_name = columns[0].text.strip()
                     if game_name != 'fulda':
-                        return 'No Gamehistory Data'
+                        continue
 
                     link_element = columns[2].find('a')
                     if link_element is not None and 'href' in link_element.attrs:
                         game_link = link_element['href']
                         username = await get_username(game_link)
-                        return str(username)
+                        if username is not None:
+                            return str(username)
                     else:
-                        return "Username Error"
+                        continue
+
         return None
     except Exception as e:
         logger.error(f"{e}")
+
 async def processUsernames():
     try:
         data = await load_json_file('./resources/leaderboard.json')
