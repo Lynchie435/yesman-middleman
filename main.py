@@ -109,7 +109,7 @@ async def processUsernames():
                               'rank': str(row["key"]),
                               'elo': math.ceil(float(row["value"]))
                               }
-                             for i, row in enumerate(rows[:500])]
+                             for i, row in enumerate(rows[:5])]
 
             sql.add_usernames_to_db(modified_rows)
         else:
@@ -122,18 +122,18 @@ async def load_json_file(file_path):
         return json.load(file)
 async def startProcessing():
 
-    # Calculate the time until the desired start time
-    now = datetime.now()
-    desired_start_time = now.replace(hour=desired_hour, minute=desired_minute, second=0, microsecond=0)
-
-    if now >= desired_start_time:
-        # If the desired start time has already passed for today, calculate the start time for the next day
-        desired_start_time += timedelta(days=1)
-
-    time_until_start = (desired_start_time - now).total_seconds()
-
-    logger.debug(f"Waiting for {time_until_start} seconds until the desired start time.")
-    await asyncio.sleep(time_until_start)
+    # # Calculate the time until the desired start time
+    # now = datetime.now()
+    # desired_start_time = now.replace(hour=desired_hour, minute=desired_minute, second=0, microsecond=0)
+    #
+    # if now >= desired_start_time:
+    #     # If the desired start time has already passed for today, calculate the start time for the next day
+    #     desired_start_time += timedelta(days=1)
+    #
+    # time_until_start = (desired_start_time - now).total_seconds()
+    #
+    # logger.debug(f"Waiting for {time_until_start} seconds until the desired start time.")
+    # await asyncio.sleep(time_until_start)
 
     while True:
         await asyncio.gather(get_leaderboard())

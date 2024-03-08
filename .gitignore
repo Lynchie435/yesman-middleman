@@ -6,3 +6,4 @@
 /.idea/yesman-middleman.iml
 /resources/leaderboard.json
 /.env
+/logs/yesman-middleman.log
