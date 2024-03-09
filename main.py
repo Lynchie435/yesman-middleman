@@ -151,7 +151,7 @@ async def startProcessing():
         await asyncio.gather(processUsernames())
         logger.debug('Processing Finished...')
 
-        sleeptimer = 60 * 60 * 24
+        sleeptimer = 60 * 60 * 6
         logger.debug(f'Sleeping for {sleeptimer} seconds')
 
         await asyncio.sleep(sleeptimer)
