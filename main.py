@@ -151,13 +151,13 @@ async def startProcessing():
         await asyncio.gather(processUsernames())
         logger.debug('Processing Finished...')
 
-        sleeptimer = 60 * 60 * 6
+        sleeptimer = 60 * 60 * 1
         logger.debug(f'Sleeping for {sleeptimer} seconds')
 
         await asyncio.sleep(sleeptimer)
 
 # Set your desired start time (24-hour format)
-desired_hour = 1
+desired_hour = 11
 desired_minute = 0
 
 # Run the event loop
